@@ -13,57 +13,156 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://neelakanta-ganji.dev"),
-  title: "Neelakanta Ganji | Full-Stack Web Developer & App Developer",
+  metadataBase: new URL("https://ganjineelakanta.vercel.app"),
+  title: {
+    default: "Neelakanta Ganji | Full-Stack Web Developer & App Developer",
+    template: "%s | Neelakanta Ganji (Ganji Neelakanta)",
+  },
   description:
-    "Building modern web applications, mobile experiences, backend systems, APIs and complete digital products. Portfolio of Neelakanta Ganji.",
+    "Official portfolio of Neelakanta Ganji (Ganji Neelakanta). Full-Stack Web Developer and App Developer specializing in Next.js, React, Node.js, Supabase, PostgreSQL, and scalable digital products.",
   keywords: [
+    "Ganji Neelakanta",
     "Neelakanta Ganji",
-    "Full-Stack Developer",
+    "Neelakanta",
+    "ganjineelakanta",
+    "ganjineelakanta.vercel.app",
+    "Ganji Neelakanta portfolio",
+    "Neelakanta Ganji developer",
+    "Neelakanta web developer",
+    "Full-Stack Web Developer",
     "App Developer",
-    "Next.js",
-    "React",
-    "Java Spring Boot",
-    "Python",
-    "Cassandra",
-    "PostgreSQL",
-    "Microservices",
+    "Next.js Developer",
+    "React Developer",
+    "Node.js Supabase Developer",
+    "Software Engineer Portfolio",
+    "B.Tech Computer Science Engineering",
   ],
-  authors: [{ name: "Neelakanta Ganji" }],
+  authors: [{ name: "Neelakanta Ganji", url: "https://ganjineelakanta.vercel.app" }],
   creator: "Neelakanta Ganji",
+  publisher: "Neelakanta Ganji",
+  alternates: {
+    canonical: "https://ganjineelakanta.vercel.app",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Neelakanta Ganji | Full-Stack Web Developer & App Developer",
+    title: "Neelakanta Ganji (Ganji Neelakanta) | Full-Stack Web Developer & App Developer",
     description:
-      "Building modern web applications, mobile experiences, backend systems, APIs and complete digital products.",
-    url: "https://neelakanta-ganji.dev",
+      "Explore the portfolio of Neelakanta Ganji (Ganji Neelakanta) - building high-performance modern web apps, mobile experiences, and scalable backend systems.",
+    url: "https://ganjineelakanta.vercel.app",
     siteName: "Neelakanta Ganji Portfolio",
     images: [
       {
-        url: "/neelakanta-ganji.jpg",
+        url: "/neelakanta-hero-portrait.jpg",
         width: 1200,
         height: 630,
-        alt: "Neelakanta Ganji - Full-Stack Web Developer & App Developer",
+        alt: "Neelakanta Ganji (Ganji Neelakanta) - Full-Stack Web Developer & App Developer",
       },
     ],
     locale: "en_US",
-    type: "website",
+    type: "profile",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Neelakanta Ganji | Full-Stack Web Developer & App Developer",
+    title: "Neelakanta Ganji (Ganji Neelakanta) | Full-Stack Web & App Developer",
     description:
-      "Building modern web applications, mobile experiences, backend systems, APIs and complete digital products.",
-    images: ["/neelakanta-ganji.jpg"],
+      "Full-Stack Web Developer & App Developer building modern digital products, APIs, and mobile experiences.",
+    images: ["/neelakanta-hero-portrait.jpg"],
+    creator: "@ganjineelakanta",
   },
   icons: {
     icon: "/favicon.ico",
   },
+  category: "technology",
 };
 
 export const viewport: Viewport = {
   themeColor: "#030508",
   width: "device-width",
   initialScale: 1,
+};
+
+// Google Schema.org Structured Data for Knowledge Graph ranking #1
+const jsonLdData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://ganjineelakanta.vercel.app/#person",
+      name: "Neelakanta Ganji",
+      alternateName: [
+        "Ganji Neelakanta",
+        "Neelakanta",
+        "ganjineelakanta",
+        "G Neelakanta",
+      ],
+      url: "https://ganjineelakanta.vercel.app",
+      image: "https://ganjineelakanta.vercel.app/neelakanta-hero-portrait.jpg",
+      jobTitle: "Full-Stack Web Developer & App Developer",
+      description:
+        "Neelakanta Ganji (Ganji Neelakanta) is a Full-Stack Web Developer and App Developer specializing in Next.js, React, Node.js, Supabase, and distributed systems.",
+      sameAs: [
+        "https://github.com/Neelakanta-ganji",
+        "https://linkedin.com/in/ganjineelakanta",
+      ],
+      email: "ganjineelakanta0@gmail.com",
+      telephone: "+919392799404",
+      alumniOf: {
+        "@type": "EducationalOrganization",
+        name: "Computer Science & Engineering",
+      },
+      knowsAbout: [
+        "Web Development",
+        "Mobile App Development",
+        "Next.js",
+        "React",
+        "Node.js",
+        "Supabase",
+        "PostgreSQL",
+        "JavaScript",
+        "TypeScript",
+        "Cloud Architecture",
+        "Cybersecurity",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://ganjineelakanta.vercel.app/#website",
+      url: "https://ganjineelakanta.vercel.app",
+      name: "Neelakanta Ganji (Ganji Neelakanta) - Portfolio",
+      alternateName: "Ganji Neelakanta Developer Portfolio",
+      description:
+        "Official developer portfolio of Neelakanta Ganji (Ganji Neelakanta).",
+      publisher: {
+        "@id": "https://ganjineelakanta.vercel.app/#person",
+      },
+      inLanguage: "en-US",
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://ganjineelakanta.vercel.app/#webpage",
+      url: "https://ganjineelakanta.vercel.app",
+      name: "Neelakanta Ganji | Full-Stack Web Developer & App Developer",
+      isPartOf: {
+        "@id": "https://ganjineelakanta.vercel.app/#website",
+      },
+      about: {
+        "@id": "https://ganjineelakanta.vercel.app/#person",
+      },
+      mainEntity: {
+        "@id": "https://ganjineelakanta.vercel.app/#person",
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -76,7 +175,14 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#030508] text-[#f1f5f9] selection:bg-cyan-500/25 selection:text-white">
+      <head>
+        {/* Google Knowledge Graph JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-[#030508] text-[#f1f5f9] selection:bg-purple-500/30 selection:text-white">
         {children}
       </body>
     </html>
