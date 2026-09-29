@@ -83,6 +83,9 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   category: "technology",
+  verification: {
+    google: "google85b4e3439debdc33",
+  },
 };
 
 export const viewport: Viewport = {
