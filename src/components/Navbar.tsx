@@ -117,9 +117,9 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-3 sm:px-8 pt-3 sm:pt-4 transition-all duration-300">
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-2.5 sm:px-8 pt-2 sm:pt-4 transition-all duration-300">
         <nav
-          className={`w-full max-w-7xl flex items-center justify-between px-3.5 sm:px-5 py-2 sm:py-3 rounded-full transition-all duration-300 ${
+          className={`w-full max-w-7xl flex items-center justify-between px-3 sm:px-5 py-1.5 sm:py-3 rounded-full transition-all duration-300 ${
             isScrolled
               ? "glass-panel bg-[#070412]/95 shadow-[0_10px_35px_rgba(0,0,0,0.85)] border-purple-500/25"
               : "bg-[#06030f]/60 backdrop-blur-md border border-white/5"
@@ -129,10 +129,10 @@ export default function Navbar() {
           <Link
             href="#home"
             onClick={(e) => handleNavClick(e, "#home")}
-            className="flex items-center gap-2.5 group"
+            className="flex items-center gap-2 group min-w-0"
             aria-label="Neelakanta Ganji Home"
           >
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-purple-400/60 shadow-[0_0_12px_rgba(168,85,247,0.4)] shrink-0">
+            <div className="relative w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-purple-400/60 shadow-[0_0_12px_rgba(168,85,247,0.4)] shrink-0">
               <Image
                 src="/neelakanta-ganji.jpg"
                 alt="Neelakanta Ganji"
@@ -141,8 +141,8 @@ export default function Navbar() {
                 sizes="36px"
               />
             </div>
-            <div className="flex flex-col text-left">
-              <span className="text-xs sm:text-sm font-bold tracking-tight text-white leading-tight">
+            <div className="flex flex-col text-left min-w-0">
+              <span className="text-xs sm:text-sm font-bold tracking-tight text-white leading-tight truncate max-w-[115px] xs:max-w-[160px] sm:max-w-none">
                 Neelakanta Ganji
               </span>
               <span className="text-[10px] text-purple-300/90 font-semibold tracking-wider hidden sm:inline">
@@ -188,7 +188,7 @@ export default function Navbar() {
           </div>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Desktop Audio Button */}
             <button
               onClick={toggleSound}
@@ -209,15 +209,15 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Resume Button (Matching Radiant Purple Pill in Reference Image) */}
+            {/* Resume Button */}
             <a
               href="/resume.pdf"
               download
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="flex items-center gap-1.5 px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold tracking-wide text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.6)] hover:shadow-[0_0_30px_rgba(168,85,247,0.85)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold tracking-wide text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 shadow-[0_0_18px_rgba(168,85,247,0.55)] hover:shadow-[0_0_28px_rgba(168,85,247,0.8)] transition-all shrink-0"
             >
-              <Download className="w-3.5 h-3.5 text-white" />
+              <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
               <span>Resume</span>
             </a>
 
@@ -227,7 +227,7 @@ export default function Navbar() {
                 sound.playClick();
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
-              className="xl:hidden p-2 rounded-full border border-purple-500/30 bg-purple-950/40 text-white hover:bg-purple-900/60 transition-colors"
+              className="xl:hidden p-1.5 sm:p-2 rounded-full border border-purple-500/30 bg-purple-950/40 text-white hover:bg-purple-900/60 transition-colors shrink-0"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4 text-purple-200" /> : <Menu className="w-4 h-4 text-purple-200" />}

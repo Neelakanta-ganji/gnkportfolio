@@ -8,17 +8,17 @@ import { GitPullRequest, CheckCircle2 } from "lucide-react";
 
 export default function ProcessSection() {
   return (
-    <section id="process" className="relative py-28 px-4 sm:px-8 max-w-7xl mx-auto z-10">
+    <section id="process" className="relative py-14 sm:py-24 px-4 sm:px-8 max-w-7xl mx-auto z-10 w-full">
       {/* Section Header */}
-      <div className="flex flex-col items-start mb-16 space-y-3">
+      <div className="flex flex-col items-start mb-10 sm:mb-16 space-y-3">
         <div className="flex items-center gap-2 font-sans text-xs text-purple-400 font-semibold tracking-[0.25em] uppercase">
           <GitPullRequest className="w-4 h-4" />
           <span>06 // ENGINEERING METHODOLOGY</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase max-w-4xl">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase max-w-4xl text-heading-fluid">
           From Idea To <span className="text-gradient-purple">Production</span>
         </h2>
-        <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed text-body-fluid">
           Disciplined 7-stage engineering lifecycle transforming conceptual requirements into resilient, tested, and containerized digital products.
         </p>
       </div>
@@ -27,13 +27,13 @@ export default function ProcessSection() {
       <div className="relative">
         <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500/20 via-indigo-500/30 to-purple-500/20 -translate-y-1/2 -z-10" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
           {DEVELOPMENT_STAGES.map((stage) => (
             <motion.div
               key={stage.step}
               whileHover={{ y: -8 }}
               onMouseEnter={() => sound.playHover()}
-              className="glass-panel p-5 rounded-3xl border border-white/10 bg-[#080312]/85 hover:border-purple-400/50 hover:shadow-[0_15px_30px_rgba(168,85,247,0.2)] transition-all flex flex-col justify-between text-left group"
+              className="glass-panel p-4 sm:p-5 rounded-3xl border border-white/10 bg-[#080312]/85 hover:border-purple-400/50 hover:shadow-[0_15px_30px_rgba(168,85,247,0.2)] transition-all flex flex-col justify-between text-left group w-full"
             >
               <div>
                 {/* Step Number Badge */}

@@ -20,7 +20,7 @@ import { sound } from "@/lib/sound";
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative py-14 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+    <section id="about" className="relative py-14 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 w-full">
       {/* Subtle Ambient Glow */}
       <div className="absolute top-1/4 left-1/3 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
@@ -30,7 +30,7 @@ export default function AboutSection() {
           <Terminal className="w-3.5 h-3.5 text-purple-400" />
           <span>01 // DEVELOPER SNAPSHOT</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase max-w-4xl leading-[1.08]">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase max-w-4xl leading-[1.08] text-heading-fluid">
           I BUILD{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-purple-300 to-indigo-400 drop-shadow-[0_0_25px_rgba(168,85,247,0.35)]">
             DIGITAL PRODUCTS

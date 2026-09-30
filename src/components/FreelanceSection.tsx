@@ -30,23 +30,23 @@ export default function FreelanceSection() {
   };
 
   return (
-    <section id="freelance" className="relative py-28 px-4 sm:px-8 max-w-7xl mx-auto z-10">
+    <section id="freelance" className="relative py-14 sm:py-24 px-4 sm:px-8 max-w-7xl mx-auto z-10 w-full">
       {/* Section Header */}
-      <div className="flex flex-col items-start mb-16 space-y-3">
+      <div className="flex flex-col items-start mb-10 sm:mb-16 space-y-3">
         <div className="flex items-center gap-2 font-sans text-xs text-purple-400 font-semibold tracking-[0.25em] uppercase">
           <Globe className="w-4 h-4" />
           <span>05 // COMMERCIAL DEMOS & CLIENT EXPERIENCES</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase max-w-4xl">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase max-w-4xl text-heading-fluid">
           Freelance & Web <span className="text-gradient-purple">Experiences</span>
         </h2>
-        <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed text-body-fluid">
           Designing and developing modern digital experiences for businesses. (Clearly designated as verified freelance showcase demos).
         </p>
       </div>
 
       {/* 3 Direct Showcase Cards (No View Modes, Direct Links Only) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
         {FREELANCE_PROJECTS.map((proj, idx) => {
           const IconComponent = getProjectIcon(proj.id);
 
@@ -55,7 +55,7 @@ export default function FreelanceSection() {
               key={proj.id}
               whileHover={{ y: -8, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 350, damping: 22 }}
-              className="group relative rounded-3xl glass-panel bg-gradient-to-b from-[#0e071e]/90 to-[#05020a]/95 border border-white/10 hover:border-purple-400/50 hover:shadow-[0_20px_50px_rgba(168,85,247,0.25)] transition-all p-7 flex flex-col justify-between overflow-hidden text-left"
+              className="group relative rounded-3xl glass-panel bg-gradient-to-b from-[#0e071e]/90 to-[#05020a]/95 border border-white/10 hover:border-purple-400/50 hover:shadow-[0_20px_50px_rgba(168,85,247,0.25)] transition-all p-5 sm:p-7 flex flex-col justify-between overflow-hidden text-left w-full"
             >
               {/* Top ambient color glow matching project */}
               <div

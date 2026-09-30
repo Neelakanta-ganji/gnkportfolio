@@ -34,19 +34,19 @@ export default function HeroSection() {
         <div className="w-80 h-20 bg-purple-500/25 blur-3xl rounded-full" />
       </div>
 
-      {/* Main 2-Column Hero Content (Matching User's Reference Layout) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-6 sm:py-10">
+      {/* Main 2-Column Hero Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-4 sm:py-10 w-full max-w-full">
         {/* LEFT COLUMN: Typography, Badges, CTAs, Tech Pills (lg:col-span-7) */}
-        <div className="lg:col-span-7 text-left space-y-6 z-20">
+        <div className="lg:col-span-7 text-left space-y-5 sm:space-y-6 z-20 w-full max-w-full">
           {/* Status Pill Badge */}
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1b0d36]/90 border border-purple-500/40 backdrop-blur-xl shadow-[0_0_20px_rgba(168,85,247,0.25)] select-none"
+            className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#1b0d36]/90 border border-purple-500/40 backdrop-blur-xl shadow-[0_0_20px_rgba(168,85,247,0.25)] select-none"
           >
-            <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
-            <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-wider text-purple-200">
+            <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping shrink-0" />
+            <span className="font-sans text-[10px] sm:text-xs font-semibold tracking-wider text-purple-200">
               ● AVAILABLE FOR OPPORTUNITIES
             </span>
           </motion.div>
@@ -56,12 +56,12 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="space-y-2"
+            className="space-y-1.5 sm:space-y-2"
           >
-            <span className="font-sans text-xs sm:text-sm font-bold tracking-[0.25em] uppercase text-purple-300/80 block">
+            <span className="font-sans text-[11px] sm:text-sm font-bold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-purple-300/80 block">
               ARCHITECTING MODERN DIGITAL PRODUCTS
             </span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] font-black tracking-tight text-white leading-[1.02]">
+            <h1 className="text-hero-fluid font-black tracking-tight text-white leading-[1.02]">
               NEELAKANTA <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-purple-400 drop-shadow-[0_0_35px_rgba(168,85,247,0.35)]">
                 GANJI
@@ -69,20 +69,20 @@ export default function HeroSection() {
             </h1>
           </motion.div>
 
-          {/* Dual Badges with Real Photo Avatar in Center (Matching Reference Composition) */}
+          {/* Dual Badges with Real Photo Avatar in Center */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center flex-wrap gap-2.5 sm:gap-3 py-1"
+            className="flex items-center flex-wrap gap-2 sm:gap-3 py-1"
           >
-            {/* Backend Core Badge (Node.js & Supabase) */}
-            <div className="flex items-center gap-2.5 px-3 sm:px-4 py-2 rounded-2xl glass-panel bg-[#120824]/85 border border-purple-500/35 shadow-[0_0_18px_rgba(168,85,247,0.2)]">
-              <div className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0">
-                <Server className="w-4 h-4 text-purple-300" />
+            {/* Backend Core Badge */}
+            <div className="flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl glass-panel bg-[#120824]/85 border border-purple-500/35 shadow-[0_0_18px_rgba(168,85,247,0.2)]">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0">
+                <Server className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-300" />
               </div>
               <div className="text-left">
-                <span className="text-[10px] text-purple-300 font-bold uppercase tracking-wider block leading-tight">
+                <span className="text-[9px] sm:text-[10px] text-purple-300 font-bold uppercase tracking-wider block leading-tight">
                   BACKEND CORE
                 </span>
                 <span className="text-xs sm:text-sm font-bold text-white leading-tight">
@@ -91,8 +91,8 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Circular Avatar with Real Photo of Neelakanta Ganji */}
-            <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-white shadow-[0_0_22px_rgba(168,85,247,0.55)] shrink-0 group">
+            {/* Circular Avatar */}
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-white shadow-[0_0_22px_rgba(168,85,247,0.55)] shrink-0 group">
               <Image
                 src="/neelakanta-ganji.jpg"
                 alt="Neelakanta Ganji"
@@ -103,13 +103,13 @@ export default function HeroSection() {
               />
             </div>
 
-            {/* Frontend Engine Badge (Next.js & React) */}
-            <div className="flex items-center gap-2.5 px-3 sm:px-4 py-2 rounded-2xl glass-panel bg-[#0d152b]/85 border border-cyan-500/35 shadow-[0_0_18px_rgba(56,189,248,0.2)]">
-              <div className="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0">
-                <Code2 className="w-4 h-4 text-cyan-300" />
+            {/* Frontend Engine Badge */}
+            <div className="flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl glass-panel bg-[#0d152b]/85 border border-cyan-500/35 shadow-[0_0_18px_rgba(56,189,248,0.2)]">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0">
+                <Code2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-300" />
               </div>
               <div className="text-left">
-                <span className="text-[10px] text-cyan-300 font-bold uppercase tracking-wider block leading-tight">
+                <span className="text-[9px] sm:text-[10px] text-cyan-300 font-bold uppercase tracking-wider block leading-tight">
                   FRONTEND ENGINE
                 </span>
                 <span className="text-xs sm:text-sm font-bold text-white leading-tight">
@@ -124,29 +124,29 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="space-y-1.5 max-w-xl text-left"
+            className="space-y-1 max-w-[92vw] sm:max-w-xl text-left"
           >
             <h3 className="text-xs sm:text-sm font-bold tracking-wider text-purple-300 uppercase">
               FULL-STACK WEB &amp; APP DEVELOPER
             </h3>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            <p className="text-body-fluid text-slate-300 leading-relaxed font-normal">
               Building responsive interfaces, powerful APIs and scalable applications.
             </p>
           </motion.div>
 
-          {/* Action CTAs in a sleek row (Matching Reference Style) */}
+          {/* Action CTAs in a sleek row */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap items-center gap-3 pt-1"
+            className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-1 w-full"
           >
             {/* View My Work Button */}
             <a
               href="#projects"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 text-white font-bold text-xs sm:text-sm tracking-wide shadow-[0_0_28px_rgba(168,85,247,0.55)] hover:shadow-[0_0_38px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+              className="w-full sm:w-auto justify-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 text-white font-bold text-xs sm:text-sm tracking-wide shadow-[0_0_28px_rgba(168,85,247,0.55)] hover:shadow-[0_0_38px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
             >
               <span>VIEW MY WORK</span>
               <ArrowDownRight className="w-4 h-4 text-purple-200" />
@@ -158,10 +158,10 @@ export default function HeroSection() {
               download
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="glass-button flex items-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-slate-200 hover:text-white"
+              className="w-[calc(50%-5px)] sm:w-auto justify-center glass-button flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-slate-200 hover:text-white"
             >
-              <Download className="w-4 h-4 text-purple-400" />
-              <span>DOWNLOAD RESUME</span>
+              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400" />
+              <span className="truncate">RESUME</span>
             </a>
 
             {/* Let's Talk Button */}
@@ -169,19 +169,19 @@ export default function HeroSection() {
               href="#contact"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="glass-button flex items-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-slate-300 hover:text-purple-300"
+              className="w-[calc(50%-5px)] sm:w-auto justify-center glass-button flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-slate-300 hover:text-purple-300"
             >
-              <Send className="w-3.5 h-3.5" />
-              <span>LET&apos;S TALK</span>
+              <Send className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+              <span className="truncate">LET&apos;S TALK</span>
             </a>
           </motion.div>
 
-          {/* Bottom Tech Pills Row (Matching Reference) */}
+          {/* Bottom Tech Pills Row */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap items-center gap-2.5 pt-2"
+            className="flex flex-wrap items-center gap-2 pt-1 max-w-full"
           >
             {[
               { label: "Node.js & Supabase", icon: Server },
@@ -193,9 +193,9 @@ export default function HeroSection() {
               return (
                 <div
                   key={pill.label}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs text-slate-300 font-medium select-none shadow-sm hover:border-purple-400/40 hover:bg-white/[0.07] transition-colors"
+                  className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[11px] sm:text-xs text-slate-300 font-medium select-none shadow-sm hover:border-purple-400/40 hover:bg-white/[0.07] transition-colors"
                 >
-                  <Icon className="w-3.5 h-3.5 text-purple-400" />
+                  <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-purple-400" />
                   <span>{pill.label}</span>
                 </div>
               );
@@ -203,33 +203,32 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* RIGHT COLUMN: Cinematic Developer Portrait, Cosmic Planet, 3D Tiles (lg:col-span-5) */}
-        <div className="lg:col-span-5 relative flex items-center justify-center min-h-[460px] sm:min-h-[520px] lg:min-h-[580px]">
-          {/* Background Cosmic Planet with Violet Atmosphere Glow (Matching Reference Image) */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[420px] lg:w-[460px] h-[340px] sm:h-[420px] lg:h-[460px] rounded-full pointer-events-none -z-10">
+        {/* RIGHT COLUMN: Cinematic Developer Portrait, Cosmic Planet (lg:col-span-5) */}
+        <div className="lg:col-span-5 relative flex items-center justify-center min-h-[350px] sm:min-h-[480px] lg:min-h-[580px] w-full max-w-full overflow-hidden">
+          {/* Background Cosmic Planet */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] sm:w-[380px] lg:w-[460px] h-[260px] sm:h-[380px] lg:h-[460px] rounded-full pointer-events-none -z-10">
             {/* Planet Sphere Body */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#1a0c3b] via-[#090317] to-[#04010a] shadow-[inset_0_0_80px_rgba(168,85,247,0.35),0_0_90px_rgba(168,85,247,0.45)] border border-purple-500/30 overflow-hidden">
-              {/* Subtle planetary surface texture / stardust */}
               <div className="absolute inset-0 bg-[radial-gradient(#a855f7_1px,transparent_1px)] [background-size:18px_18px] opacity-35" />
             </div>
 
             {/* Glowing Atmospheric Violet Rim Light */}
             <div className="absolute -inset-4 rounded-full bg-purple-600/20 blur-2xl pointer-events-none" />
 
-            {/* Glowing Neon Elliptical Orbital Ring (Matching Reference Image) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[118%] h-[55%] rounded-[100%] border-2 border-purple-400/60 shadow-[0_0_30px_#a855f7] -rotate-12 pointer-events-none" />
+            {/* Glowing Neon Elliptical Orbital Ring */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[108%] h-[52%] rounded-[100%] border-2 border-purple-400/60 shadow-[0_0_30px_#a855f7] -rotate-12 pointer-events-none" />
           </div>
 
           {/* Floating 3D Holographic Card 1: Top-Left (Code </>) */}
           <motion.div
             animate={{
-              y: [0, -12, 0],
+              y: [0, -10, 0],
               rotate: [-4, 2, -4],
             }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-8 sm:top-12 left-0 sm:left-4 z-30 p-3 sm:p-4 rounded-2xl glass-panel bg-[#170a30]/80 border border-purple-400/50 shadow-[0_0_28px_rgba(168,85,247,0.45)] backdrop-blur-xl pointer-events-none select-none"
+            className="absolute top-4 sm:top-12 left-2 sm:left-4 z-30 p-2 sm:p-4 rounded-xl sm:rounded-2xl glass-panel bg-[#170a30]/80 border border-purple-400/50 shadow-[0_0_24px_rgba(168,85,247,0.4)] backdrop-blur-xl pointer-events-none select-none"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-purple-500/25 flex items-center justify-center text-purple-200 font-mono font-bold text-lg">
+            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-purple-500/25 flex items-center justify-center text-purple-200 font-mono font-bold text-sm sm:text-lg">
               &lt;/&gt;
             </div>
           </motion.div>
@@ -237,36 +236,36 @@ export default function HeroSection() {
           {/* Floating 3D Holographic Card 2: Mid-Left (Cloud / DB) */}
           <motion.div
             animate={{
-              y: [0, 10, 0],
+              y: [0, 8, 0],
               rotate: [3, -3, 3],
             }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute bottom-28 sm:bottom-32 left-2 sm:left-6 z-30 p-2.5 sm:p-3 rounded-2xl glass-panel bg-[#170a30]/80 border border-purple-400/40 shadow-[0_0_22px_rgba(168,85,247,0.35)] backdrop-blur-xl pointer-events-none select-none"
+            className="absolute bottom-16 sm:bottom-32 left-3 sm:left-6 z-30 p-2 sm:p-3 rounded-xl sm:rounded-2xl glass-panel bg-[#170a30]/80 border border-purple-400/40 shadow-[0_0_20px_rgba(168,85,247,0.3)] backdrop-blur-xl pointer-events-none select-none"
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-500/25 flex items-center justify-center text-indigo-300">
-              <Cloud className="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" />
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-indigo-500/25 flex items-center justify-center text-indigo-300">
+              <Cloud className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-purple-300" />
             </div>
           </motion.div>
 
-          {/* Floating 3D Holographic Card 3: Top-Right (Analytics / Bar Chart) */}
+          {/* Floating 3D Holographic Card 3: Top-Right (Analytics) */}
           <motion.div
             animate={{
-              y: [0, -14, 0],
+              y: [0, -12, 0],
               rotate: [4, -2, 4],
             }}
             transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-            className="absolute top-12 sm:top-16 right-0 sm:right-6 z-30 p-2.5 sm:p-3.5 rounded-2xl glass-panel bg-[#170a30]/80 border border-purple-400/40 shadow-[0_0_25px_rgba(168,85,247,0.4)] backdrop-blur-xl pointer-events-none select-none"
+            className="absolute top-8 sm:top-16 right-2 sm:right-6 z-30 p-2 sm:p-3.5 rounded-xl sm:rounded-2xl glass-panel bg-[#170a30]/80 border border-purple-400/40 shadow-[0_0_22px_rgba(168,85,247,0.35)] backdrop-blur-xl pointer-events-none select-none"
           >
-            <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300">
-              <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" />
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300">
+              <BarChart3 className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-purple-300" />
             </div>
           </motion.div>
 
-          {/* Glowing Neon Handwritten Script: "Full Stack Developer" (Matching Reference Image) */}
+          {/* Glowing Neon Handwritten Script */}
           <motion.div
             animate={{ opacity: [0.85, 1, 0.85] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-28 sm:top-36 right-0 sm:-right-4 z-30 select-none pointer-events-none transform rotate-[-8deg]"
+            className="hidden sm:block absolute top-28 sm:top-36 right-0 sm:-right-4 z-30 select-none pointer-events-none transform rotate-[-8deg]"
           >
             <div className="flex items-center gap-1.5 text-purple-300 drop-shadow-[0_0_15px_rgba(168,85,247,0.85)] font-serif italic text-base sm:text-lg font-semibold tracking-wide">
               <span>Full Stack</span>
@@ -277,14 +276,13 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Cinematic High-Res Portrait of Neelakanta Ganji (Exact Face, Glasses, Laptop & Purple Rim Light) */}
+          {/* Cinematic High-Res Portrait of Neelakanta Ganji */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-[320px] sm:w-[400px] lg:w-[440px] h-[440px] sm:h-[500px] lg:h-[540px] z-20 flex items-end justify-center select-none"
+            className="relative w-[260px] sm:w-[380px] lg:w-[440px] h-[360px] sm:h-[480px] lg:h-[540px] z-20 flex items-end justify-center select-none"
           >
-            {/* Real Portrait Image with Soft Horizon Fade */}
             <div className="relative w-full h-full [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
               <Image
                 src="/neelakanta-hero-portrait.jpg"
@@ -292,7 +290,7 @@ export default function HeroSection() {
                 fill
                 priority
                 className="object-contain object-bottom drop-shadow-[0_15px_45px_rgba(0,0,0,0.8)]"
-                sizes="(max-width: 768px) 340px, (max-width: 1200px) 440px, 500px"
+                sizes="(max-width: 768px) 300px, (max-width: 1200px) 420px, 480px"
               />
             </div>
           </motion.div>

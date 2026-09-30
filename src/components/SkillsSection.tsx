@@ -52,18 +52,18 @@ export default function SkillsSection() {
         <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-slate-300 uppercase mb-2">
           BETTER THAN YESTERDAY.
         </span>
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
+        <h2 className="text-2xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight text-heading-fluid">
           My Tech Stack
         </h2>
-        <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-400 max-w-xl mx-auto leading-relaxed px-2">
+        <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-400 max-w-xl mx-auto leading-relaxed px-2 text-body-fluid">
           Production technologies, distributed persistence engines, and modern tooling powering digital experiences.
         </p>
       </div>
 
-      {/* Control Bar: Categories (Swipeable on mobile) & View Switcher */}
+      {/* Control Bar: Categories & View Switcher (Flex-wrap on mobile) */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 max-w-5xl mx-auto mb-6 sm:mb-8 w-full px-1">
-        {/* Filter Tabs - Horizontal swipe rail on mobile with no scrollbar */}
-        <div className="w-full md:w-auto flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none md:flex-wrap md:justify-center px-1">
+        {/* Filter Tabs - Wrapped into multiple rows instead of horizontal overflow */}
+        <div className="w-full md:w-auto flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-1">
           {FILTER_TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -74,7 +74,7 @@ export default function SkillsSection() {
                   setActiveTab(tab.id);
                 }}
                 onMouseEnter={() => sound.playHover()}
-                className={`px-3 py-1.5 sm:px-3.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide transition-all shrink-0 whitespace-nowrap ${
+                className={`px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-wide transition-all ${
                   isActive
                     ? "bg-purple-500/30 text-white border border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
                     : "bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5"
@@ -226,7 +226,7 @@ export default function SkillsSection() {
       </div>
 
       {/* Constellation Pipelines */}
-      <div className="mt-10 sm:mt-16 glass-panel p-4 sm:p-7 rounded-2xl sm:rounded-3xl border-white/10 max-w-5xl mx-auto text-left">
+      <div className="mt-10 sm:mt-16 glass-panel p-4 sm:p-7 rounded-2xl sm:rounded-3xl border-white/10 w-[calc(100%-32px)] sm:w-full max-w-5xl mx-auto text-left">
         <div className="flex items-center gap-2 mb-3.5 text-xs font-semibold text-purple-400 uppercase tracking-widest">
           <Network className="w-4 h-4 shrink-0" />
           <span>Verified Production Pipelines</span>

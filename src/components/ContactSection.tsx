@@ -60,27 +60,27 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative py-28 px-4 sm:px-8 max-w-7xl mx-auto z-10">
+    <section id="contact" className="relative py-14 sm:py-24 px-4 sm:px-8 max-w-7xl mx-auto z-10 w-full">
       {/* Section Header */}
-      <div className="flex flex-col items-start mb-16 space-y-3">
+      <div className="flex flex-col items-start mb-10 sm:mb-16 space-y-3">
         <div className="flex items-center gap-2 font-sans text-xs text-purple-400 font-semibold tracking-[0.25em] uppercase">
           <MessageSquare className="w-4 h-4" />
           <span>08 // INITIATE COLLABORATION</span>
         </div>
-        <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase max-w-4xl leading-tight">
+        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase max-w-4xl leading-tight text-heading-fluid">
           Let&apos;s Build <br />
           <span className="text-gradient-purple">Something.</span>
         </h2>
-        <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed text-body-fluid">
           Have an idea, product or business that needs a digital experience?
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start w-full">
         {/* Left Column: Direct Contact & Resume */}
-        <div className="lg:col-span-5 flex flex-col space-y-6 text-left">
+        <div className="lg:col-span-5 flex flex-col space-y-6 text-left w-full">
           {/* Direct Contact Links */}
-          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-4">
+          <div className="glass-panel p-5 sm:p-8 rounded-3xl border border-white/10 space-y-4 w-full">
             <h3 className="text-xs text-slate-400 uppercase tracking-wider font-bold">
               Direct Inquiries
             </h3>
@@ -90,16 +90,16 @@ export default function ContactSection() {
               href="mailto:ganjineelakanta0@gmail.com"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="flex items-center gap-4 p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/40 hover:bg-white/[0.05] transition-all group"
+              className="flex items-center gap-3.5 sm:gap-4 p-3 sm:p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/40 hover:bg-white/[0.05] transition-all group"
             >
-              <div className="w-10 h-10 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Mail className="w-5 h-5" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <span className="text-[10px] text-slate-400 uppercase tracking-widest block font-medium">
                   EMAIL ADDRESS
                 </span>
-                <span className="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors font-mono">
+                <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-purple-300 transition-colors font-mono break-all sm:break-normal">
                   ganjineelakanta0@gmail.com
                 </span>
               </div>
@@ -110,16 +110,16 @@ export default function ContactSection() {
               href="tel:+919392799404"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="flex items-center gap-4 p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/40 hover:bg-white/[0.05] transition-all group"
+              className="flex items-center gap-3.5 sm:gap-4 p-3 sm:p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/40 hover:bg-white/[0.05] transition-all group"
             >
-              <div className="w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Phone className="w-5 h-5" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <span className="text-[10px] text-slate-400 uppercase tracking-widest block font-medium">
                   PHONE CONTACT
                 </span>
-                <span className="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors font-mono">
+                <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-purple-300 transition-colors font-mono">
                   +91 9392799404
                 </span>
               </div>
@@ -127,12 +127,12 @@ export default function ContactSection() {
           </div>
 
           {/* Action CTAs */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2.5 sm:gap-3 w-full">
             <a
               href="mailto:ganjineelakanta0@gmail.com"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="glass-button-primary flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white"
+              className="glass-button-primary flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full text-xs font-bold text-white w-full sm:w-auto"
             >
               <Mail className="w-4 h-4 text-purple-200" />
               <span>EMAIL ME</span>
@@ -142,7 +142,7 @@ export default function ContactSection() {
               href="tel:+919392799404"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="glass-button flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-slate-200 hover:text-white"
+              className="glass-button flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full text-xs font-bold text-slate-200 hover:text-white w-full sm:w-auto"
             >
               <Phone className="w-4 h-4 text-purple-400" />
               <span>CALL ME</span>
@@ -153,7 +153,7 @@ export default function ContactSection() {
               download
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="glass-button flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-slate-200 hover:text-white"
+              className="glass-button flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full text-xs font-bold text-slate-200 hover:text-white w-full sm:w-auto"
             >
               <Download className="w-4 h-4 text-purple-400" />
               <span>DOWNLOAD RESUME</span>
@@ -161,14 +161,14 @@ export default function ContactSection() {
           </div>
 
           {/* Social Profiles */}
-          <div className="pt-2 flex items-center gap-4">
+          <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href="https://github.com/Neelakanta-ganji"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="p-3 rounded-full glass-panel bg-white/[0.03] border-white/10 hover:border-purple-400/50 text-white flex items-center gap-2 text-xs font-medium"
+              className="p-2.5 sm:p-3 rounded-full glass-panel bg-white/[0.03] border-white/10 hover:border-purple-400/50 text-white flex items-center gap-2 text-xs font-medium"
             >
               <GitHubIcon className="w-4 h-4" />
               <span>GitHub Profile</span>
@@ -180,7 +180,7 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="p-3 rounded-full glass-panel bg-white/[0.03] border-white/10 hover:border-purple-400/50 text-white flex items-center gap-2 text-xs font-medium"
+              className="p-2.5 sm:p-3 rounded-full glass-panel bg-white/[0.03] border-white/10 hover:border-purple-400/50 text-white flex items-center gap-2 text-xs font-medium"
             >
               <LinkedInIcon className="w-4 h-4" />
               <span>LinkedIn Profile</span>
@@ -189,8 +189,8 @@ export default function ContactSection() {
         </div>
 
         {/* Right Column: Premium Contact Form */}
-        <div className="lg:col-span-7">
-          <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/10 bg-[#080312]/95 shadow-2xl text-left">
+        <div className="lg:col-span-7 w-full">
+          <div className="glass-panel p-5 sm:p-10 rounded-3xl border border-white/10 bg-[#080312]/95 shadow-2xl text-left w-full">
             <h3 className="text-xl font-bold text-white mb-2">
               Send a Transmission
             </h3>
