@@ -90,7 +90,7 @@ interface TechSphereProps {
 
 export default function TechSphere({
   skills = TECH_SKILLS_DATA,
-  radius = 215,
+  radius = 210,
   highlightCategory = "ALL",
   className = "",
 }: TechSphereProps) {
@@ -138,21 +138,27 @@ export default function TechSphere({
     let targetVelX = 0.0015;
     let targetVelY = 0.003;
 
-    // Mouse & Drag State
+    // Pointer & Drag State
     let isDragging = false;
     let lastPointerX = 0;
     let lastPointerY = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchModeDetermined = false;
+    let isTouchScrollingPage = false;
     let isHoveringItem = false;
 
-    // Dynamic radius based on container size
+    // Dynamic radius based on container width
     const getRadius = () => {
-      const w = container.clientWidth || 500;
-      if (w < 400) return 135;
-      if (w < 640) return 165;
+      const w = container.clientWidth || 360;
+      if (w < 360) return 110;
+      if (w < 440) return 128;
+      if (w < 640) return 155;
+      if (w < 1024) return 185;
       return radius;
     };
 
-    // Mouse Move handler - sphere follows the mouse
+    // Mouse Move handler - sphere follows the cursor smoothly
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) return;
       const rect = container.getBoundingClientRect();
@@ -163,11 +169,10 @@ export default function TechSphere({
       const nx = (e.clientX - centerX) / (rect.width / 2);
       const ny = (e.clientY - centerY) / (rect.height / 2);
 
-      // Sphere steers towards cursor
       const distance = Math.min(1.5, Math.hypot(nx, ny));
       if (distance < 1.4) {
-        targetVelY = nx * 0.016;
-        targetVelX = -ny * 0.016;
+        targetVelY = nx * 0.015;
+        targetVelX = -ny * 0.015;
       } else {
         targetVelX = 0.0012;
         targetVelY = 0.0028;
@@ -180,15 +185,16 @@ export default function TechSphere({
       isDragging = false;
     };
 
-    // Pointer down for grab & spin
+    // Pointer events for desktop drag
     const handlePointerDown = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return; // Handled specifically with touch listeners for native vertical scroll
       isDragging = true;
       lastPointerX = e.clientX;
       lastPointerY = e.clientY;
     };
 
     const handlePointerMove = (e: PointerEvent) => {
-      if (!isDragging) return;
+      if (e.pointerType === "touch" || !isDragging) return;
       const dx = e.clientX - lastPointerX;
       const dy = e.clientY - lastPointerY;
       lastPointerX = e.clientX;
@@ -204,30 +210,62 @@ export default function TechSphere({
       isDragging = false;
     };
 
-    // Touch events for mobile phones and tablets
+    // Mobile Touch Handling: Smart distinction between vertical page scrolling & horizontal globe steering
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
-        isDragging = true;
-        lastPointerX = e.touches[0].clientX;
-        lastPointerY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        lastPointerX = touchStartX;
+        lastPointerY = touchStartY;
+        touchModeDetermined = false;
+        isTouchScrollingPage = false;
+        isDragging = false;
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isDragging || e.touches.length !== 1) return;
-      const dx = e.touches[0].clientX - lastPointerX;
-      const dy = e.touches[0].clientY - lastPointerY;
-      lastPointerX = e.touches[0].clientX;
-      lastPointerY = e.touches[0].clientY;
+      if (e.touches.length !== 1) return;
 
-      velY = dx * 0.006;
-      velX = -dy * 0.006;
-      rotY += velY;
-      rotX += velX;
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+
+      if (!touchModeDetermined) {
+        const diffX = Math.abs(currentX - touchStartX);
+        const diffY = Math.abs(currentY - touchStartY);
+
+        // If moved more than 7px, determine gesture intent
+        if (diffX > 7 || diffY > 7) {
+          touchModeDetermined = true;
+          if (diffY > diffX) {
+            // User intends to scroll page vertically - do NOT block page scroll
+            isTouchScrollingPage = true;
+            isDragging = false;
+            return;
+          } else {
+            // User intends to rotate the sphere horizontally
+            isTouchScrollingPage = false;
+            isDragging = true;
+          }
+        }
+      }
+
+      if (isDragging && !isTouchScrollingPage) {
+        const dx = currentX - lastPointerX;
+        const dy = currentY - lastPointerY;
+        lastPointerX = currentX;
+        lastPointerY = currentY;
+
+        velY = dx * 0.007;
+        velX = -dy * 0.007;
+        rotY += velY;
+        rotX += velX;
+      }
     };
 
     const handleTouchEnd = () => {
       isDragging = false;
+      touchModeDetermined = false;
+      isTouchScrollingPage = false;
     };
 
     // Animation Loop (60-120fps)
@@ -238,12 +276,10 @@ export default function TechSphere({
       const centerY = rect.height / 2;
 
       if (!isDragging) {
-        // Smoothly interpolate towards target velocity
         const lerpFactor = isHoveringItem ? 0.02 : 0.06;
         velX += (targetVelX - velX) * lerpFactor;
         velY += (targetVelY - velY) * lerpFactor;
 
-        // If hovering an item, gently dampen rotation so user can view or click
         if (isHoveringItem) {
           velX *= 0.85;
           velY *= 0.85;
@@ -253,59 +289,50 @@ export default function TechSphere({
         rotY += velY;
       }
 
-      // Precalculate trig values
       const cosX = Math.cos(rotX);
       const sinX = Math.sin(rotX);
       const cosY = Math.cos(rotY);
       const sinY = Math.sin(rotY);
 
-      // Update each logo's 3D position, depth scaling, and depth fading
       spherePositions.forEach((pos, i) => {
         const el = itemRefs.current[i];
         if (!el) return;
 
         // 3D rotation matrix calculation
-        // 1. Rotate around X axis
         const y1 = pos.y0 * cosX - pos.z0 * sinX;
         const z1 = pos.y0 * sinX + pos.z0 * cosX;
 
-        // 2. Rotate around Y axis
         const x2 = pos.x0 * cosY + z1 * sinY;
         const z2 = -pos.x0 * sinY + z1 * cosY;
         const y2 = y1;
 
-        // Projected 2D coordinates on screen
+        // Screen coordinate projection
         const screenX = centerX + x2 * currentRadius;
         const screenY = centerY + y2 * currentRadius;
 
-        // Depth factor: z2 ranges from -1 (deep back) to +1 (front)
-        // Normalized z from 0 to 1
+        // Depth factor (0 = back, 1 = front)
         const zNorm = (z2 + 1) / 2;
 
-        // Depth scaling: 0.52x at furthest back, 1.18x at nearest front
-        const scale = 0.52 + 0.66 * zNorm;
+        // Mobile-tuned depth scaling: 0.54x at back, 1.15x at front
+        const scale = 0.54 + 0.61 * zNorm;
 
-        // Depth fading: 0.18 opacity at back, 1.0 at front
-        // Exponential falloff gives rich realistic atmospheric perspective
-        const depthOpacity = 0.18 + 0.82 * Math.pow(zNorm, 1.5);
+        // Exponential depth fading for authentic 3D atmosphere
+        const depthOpacity = 0.18 + 0.82 * Math.pow(zNorm, 1.45);
 
-        // Check if filtered by active category
+        // Active category filter state
         const itemCategory = skills[i]?.category;
         const isCategoryActive =
           highlightCategory === "ALL" || itemCategory === highlightCategory;
-        const finalOpacity = isCategoryActive ? depthOpacity : depthOpacity * 0.25;
+        const finalOpacity = isCategoryActive ? depthOpacity : depthOpacity * 0.22;
 
-        // Z-Index for proper overlapping
         const zIndex = Math.floor(zNorm * 100) + 10;
 
-        // Direct hardware-accelerated style transform
         el.style.transform = `translate3d(${screenX}px, ${screenY}px, 0px) translate(-50%, -50%) scale(${scale})`;
         el.style.opacity = `${finalOpacity}`;
         el.style.zIndex = `${zIndex}`;
 
-        // Add soft blur filter to items far in the back
-        if (zNorm < 0.28) {
-          el.style.filter = "blur(1.2px)";
+        if (zNorm < 0.26) {
+          el.style.filter = "blur(1px)";
         } else {
           el.style.filter = "none";
         }
@@ -347,23 +374,23 @@ export default function TechSphere({
     <div
       className={`relative w-full max-w-4xl mx-auto flex flex-col items-center select-none ${className}`}
     >
-      {/* 3D Sphere Interactive Stage */}
+      {/* 3D Sphere Interactive Stage - touch-pan-y allows intuitive vertical scrolling on phones */}
       <div
         ref={containerRef}
-        className="relative w-full h-[460px] sm:h-[540px] md:h-[580px] touch-none cursor-grab active:cursor-grabbing flex items-center justify-center overflow-visible"
+        className="relative w-full h-[360px] xs:h-[400px] sm:h-[480px] md:h-[540px] touch-pan-y cursor-grab active:cursor-grabbing flex items-center justify-center overflow-visible"
         aria-label="3D Interactive Tech Stack Logo Sphere"
       >
         {/* Atmospheric Glow & Orbital Core */}
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
           {/* Central Stardust Nebula Core */}
-          <div className="w-56 sm:w-80 h-56 sm:h-80 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl" />
-          <div className="w-36 sm:w-52 h-36 sm:h-52 rounded-full bg-amber-500/10 blur-2xl" />
+          <div className="w-44 sm:w-64 md:w-80 h-44 sm:h-64 md:h-80 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl" />
+          <div className="w-28 sm:w-44 md:w-52 h-28 sm:h-44 md:h-52 rounded-full bg-amber-500/10 blur-2xl" />
 
           {/* Celestial Orbital Ring 1 (Horizontal) */}
-          <div className="absolute w-[280px] sm:w-[380px] h-[140px] sm:h-[190px] rounded-[100%] border border-purple-500/15 rotate-12 opacity-60 pointer-events-none" />
+          <div className="absolute w-[220px] sm:w-[320px] md:w-[380px] h-[110px] sm:h-[160px] md:h-[190px] rounded-[100%] border border-purple-500/15 rotate-12 opacity-60 pointer-events-none" />
 
           {/* Celestial Orbital Ring 2 (Vertical Ellipse) */}
-          <div className="absolute w-[180px] sm:w-[240px] h-[300px] sm:h-[400px] rounded-[100%] border border-indigo-500/10 -rotate-45 opacity-40 pointer-events-none" />
+          <div className="absolute w-[140px] sm:w-[200px] md:w-[240px] h-[220px] sm:h-[320px] md:h-[400px] rounded-[100%] border border-indigo-500/10 -rotate-45 opacity-40 pointer-events-none" />
         </div>
 
         {/* 3D Sphere Logos */}
@@ -396,7 +423,7 @@ export default function TechSphere({
             >
               {/* Glass Capsule Badge with Glow */}
               <div
-                className={`relative flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full backdrop-blur-xl border transition-all duration-300 ${
+                className={`relative flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-full backdrop-blur-xl border transition-all duration-300 ${
                   isSelected
                     ? "bg-[#1f143d] border-purple-400 text-white shadow-[0_0_24px_rgba(168,85,247,0.6)]"
                     : "bg-[#0b0818]/85 border-white/10 hover:border-purple-400/50 hover:bg-[#160f2e] text-slate-200 shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
@@ -404,17 +431,17 @@ export default function TechSphere({
               >
                 {/* Tech Icon */}
                 <div className="shrink-0 flex items-center justify-center transition-transform group-hover:scale-115">
-                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
                 </div>
 
                 {/* Tech Name */}
-                <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-tight whitespace-nowrap">
+                <span className="font-sans text-[10px] sm:text-xs font-semibold tracking-tight whitespace-nowrap">
                   {name}
                 </span>
 
                 {/* Ambient Brand Accent Dot */}
                 <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0 shadow-sm"
+                  className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full shrink-0 shadow-sm"
                   style={{ backgroundColor: color }}
                 />
               </div>
@@ -424,48 +451,48 @@ export default function TechSphere({
       </div>
 
       {/* Floating Active Tech Inspector / Tooltip Bar */}
-      <div className="w-full max-w-md px-4 mt-2">
-        <div className="glass-panel p-3.5 sm:p-4 rounded-2xl border-white/10 shadow-2xl flex items-center justify-between gap-3 min-h-[64px]">
+      <div className="w-full max-w-[calc(100vw-32px)] sm:max-w-md px-2 sm:px-4 mt-2">
+        <div className="glass-panel p-2.5 sm:p-3.5 md:p-4 rounded-xl sm:rounded-2xl border-white/10 shadow-2xl flex items-center justify-between gap-2.5 sm:gap-3 min-h-[58px] sm:min-h-[64px]">
           {activeItem ? (
             <>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center border shrink-0"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center border shrink-0"
                   style={{
                     backgroundColor: `${activeItem.color}15`,
                     borderColor: `${activeItem.color}40`,
                     boxShadow: `0 0 15px ${activeItem.color}30`,
                   }}
                 >
-                  <activeItem.Icon className="w-5 h-5" />
+                  <activeItem.Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="text-left">
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-bold text-white text-sm tracking-tight">
+                <div className="text-left min-w-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    <h4 className="font-bold text-white text-xs sm:text-sm tracking-tight truncate">
                       {activeItem.name}
                     </h4>
-                    <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-mono font-medium border border-purple-400/20">
+                    <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[9px] sm:text-[10px] font-mono font-medium border border-purple-400/20 whitespace-nowrap">
                       {activeItem.categoryLabel}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">
+                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5 truncate">
                     {activeItem.description}
                   </p>
                 </div>
               </div>
               <button
                 onClick={resetRotation}
-                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors shrink-0"
+                className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors shrink-0"
                 title="Reset Inspection"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
             </>
           ) : (
-            <div className="w-full flex items-center justify-center gap-2 text-xs text-slate-400 py-1">
-              <Compass className="w-4 h-4 text-purple-400 animate-spin" style={{ animationDuration: "12s" }} />
-              <span>Hover or drag the 3D globe to inspect technologies</span>
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <div className="w-full flex items-center justify-center gap-2 text-[11px] sm:text-xs text-slate-400 py-1 text-center">
+              <Compass className="w-3.5 h-3.5 text-purple-400 animate-spin shrink-0" style={{ animationDuration: "12s" }} />
+              <span className="truncate">Hover or drag 3D globe to inspect</span>
+              <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
             </div>
           )}
         </div>

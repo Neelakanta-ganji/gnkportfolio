@@ -19,7 +19,6 @@ export default function TechMarquee({
   className = "",
   showCategoryTag = true,
 }: TechMarqueeProps) {
-  // Split skills into two balanced sets if dualRow is enabled
   const row1Skills = dualRow
     ? skills.slice(0, Math.ceil(skills.length / 2))
     : skills;
@@ -36,7 +35,7 @@ export default function TechMarquee({
         data-cursor-tech
         onClick={() => sound.playClick()}
         onMouseEnter={() => sound.playHover()}
-        className="group relative flex items-center gap-2.5 sm:gap-3 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 cursor-pointer select-none transition-all duration-300 border bg-[#0a0717]/85 border-white/10 hover:border-purple-400/60 hover:bg-[#191038] shadow-[0_4px_18px_rgba(0,0,0,0.5)] shrink-0"
+        className="group relative flex items-center gap-2 sm:gap-2.5 rounded-full px-3 py-1.5 sm:px-4 sm:py-2.5 cursor-pointer select-none transition-all duration-300 border bg-[#0a0717]/85 border-white/10 hover:border-purple-400/60 hover:bg-[#191038] shadow-[0_4px_16px_rgba(0,0,0,0.5)] shrink-0"
       >
         {/* Brand Ambient Glow on Hover */}
         <div
@@ -48,11 +47,11 @@ export default function TechMarquee({
 
         {/* Crisp SVG Tech Icon */}
         <div className="shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-115">
-          <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
         </div>
 
         {/* Tech Label in Apple SF Pro */}
-        <span className="font-sans text-xs sm:text-sm font-semibold tracking-tight text-slate-200 group-hover:text-white transition-colors whitespace-nowrap">
+        <span className="font-sans text-[11px] sm:text-xs md:text-sm font-semibold tracking-tight text-slate-200 group-hover:text-white transition-colors whitespace-nowrap">
           {name}
         </span>
 
@@ -74,31 +73,27 @@ export default function TechMarquee({
 
   return (
     <div
-      className={`relative w-full overflow-hidden select-none py-4 marquee-pause-hover ${className}`}
+      className={`relative w-full overflow-hidden select-none py-2 sm:py-4 marquee-pause-hover ${className}`}
       aria-label="Infinite Tech Stack Logo Marquee"
     >
-      {/* Edge Fade Masks: CSS Gradient Mask + Edge Atmospheric Blends */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 md:w-36 bg-gradient-to-r from-[#030508] via-[#030508]/80 to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 md:w-36 bg-gradient-to-l from-[#030508] via-[#030508]/80 to-transparent z-20" />
+      {/* Edge Fade Masks: Responsive Edge Atmospheric Blends (Narrower on mobile to maximize visible width) */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-16 md:w-28 bg-gradient-to-r from-[#030508] via-[#030508]/80 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-16 md:w-28 bg-gradient-to-l from-[#030508] via-[#030508]/80 to-transparent z-20" />
 
-      <div className="marquee-fade-mask space-y-3.5 sm:space-y-4">
+      <div className="marquee-fade-mask space-y-2.5 sm:space-y-3.5">
         {/* ROW 1: Glides Left */}
         <div className="overflow-hidden flex">
-          <div className="animate-marquee-left flex items-center gap-3 sm:gap-4 shrink-0">
-            {/* First Set */}
+          <div className="animate-marquee-left flex items-center gap-2.5 sm:gap-3.5 shrink-0">
             {row1Skills.map((tech, i) => renderBadge(tech, i, "row1-a"))}
-            {/* Duplicated for seamless loop */}
             {row1Skills.map((tech, i) => renderBadge(tech, i, "row1-b"))}
           </div>
         </div>
 
-        {/* ROW 2 (Optional Dual Direction): Glides Right */}
+        {/* ROW 2: Glides Right */}
         {dualRow && row2Skills.length > 0 && (
           <div className="overflow-hidden flex">
-            <div className="animate-marquee-right flex items-center gap-3 sm:gap-4 shrink-0">
-              {/* First Set */}
+            <div className="animate-marquee-right flex items-center gap-2.5 sm:gap-3.5 shrink-0">
               {row2Skills.map((tech, i) => renderBadge(tech, i, "row2-a"))}
-              {/* Duplicated for seamless loop */}
               {row2Skills.map((tech, i) => renderBadge(tech, i, "row2-b"))}
             </div>
           </div>
