@@ -1,78 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { SKILL_CATEGORIES } from "@/data/portfolioData";
-import {
-  HTML5Icon,
-  CSS3Icon,
-  JavaScriptIcon,
-  TypeScriptIcon,
-  ReactIcon,
-  NextjsIcon,
-  TailwindIcon,
-  FramerMotionIcon,
-  ShadcnIcon,
-  NodejsIcon,
-  ExpressIcon,
-  MongoDBIcon,
-  MySQLIcon,
-  PostgreSQLIcon,
-  DockerIcon,
-  CassandraIcon,
-  PythonIcon,
-  JavaIcon,
-  SupabaseIcon,
-  FirebaseIcon,
-  RestApiIcon,
-  GitHubIcon,
-  VercelIcon,
-  PostmanIcon,
-  FigmaIcon,
-  NpmIcon,
-  MLIcon,
-  GeminiIcon,
-  FlutterIcon,
-  AndroidIcon,
-  AzureIcon,
-} from "./TechIcons";
+import { motion, AnimatePresence } from "framer-motion";
+import TechSphere, { TECH_SKILLS_DATA, TechItem } from "./TechSphere";
+import TechMarquee from "./TechMarquee";
 import { sound } from "@/lib/sound";
-import { Network, Sparkles } from "lucide-react";
-
-const ALL_PILL_SKILLS = [
-  { name: "HTML", Icon: HTML5Icon, category: "frontend" },
-  { name: "CSS", Icon: CSS3Icon, category: "frontend" },
-  { name: "JavaScript", Icon: JavaScriptIcon, category: "frontend" },
-  { name: "TypeScript", Icon: TypeScriptIcon, category: "frontend" },
-  { name: "ReactJS", Icon: ReactIcon, category: "frontend" },
-  { name: "NextJS", Icon: NextjsIcon, category: "frontend" },
-  { name: "Tailwind CSS", Icon: TailwindIcon, category: "frontend" },
-  { name: "Framer Motion", Icon: FramerMotionIcon, category: "frontend" },
-  { name: "Shadcn", Icon: ShadcnIcon, category: "frontend" },
-  { name: "NodeJS", Icon: NodejsIcon, category: "backend" },
-  { name: "Supabase", Icon: SupabaseIcon, category: "backend" },
-  { name: "ExpressJS", Icon: ExpressIcon, category: "backend" },
-  { name: "MongoDB", Icon: MongoDBIcon, category: "database" },
-  { name: "MySQL", Icon: MySQLIcon, category: "database" },
-  { name: "PostgreSQL", Icon: PostgreSQLIcon, category: "database" },
-  { name: "Apache Cassandra", Icon: CassandraIcon, category: "database" },
-  { name: "Firebase", Icon: FirebaseIcon, category: "database" },
-  { name: "Python", Icon: PythonIcon, category: "ai_backend" },
-  { name: "Java", Icon: JavaIcon, category: "backend" },
-  { name: "REST API", Icon: RestApiIcon, category: "backend" },
-  { name: "Docker", Icon: DockerIcon, category: "devops" },
-  { name: "GitHub", Icon: GitHubIcon, category: "devops" },
-  { name: "Vercel", Icon: VercelIcon, category: "devops" },
-  { name: "Azure", Icon: AzureIcon, category: "devops" },
-  { name: "Postman", Icon: PostmanIcon, category: "devops" },
-  { name: "Figma", Icon: FigmaIcon, category: "design" },
-  { name: "npm", Icon: NpmIcon, category: "devops" },
-  { name: "scikit-learn", Icon: MLIcon, category: "ai_backend" },
-  { name: "Gemini API", Icon: GeminiIcon, category: "ai_backend" },
-  { name: "React Native", Icon: ReactIcon, category: "mobile" },
-  { name: "Flutter", Icon: FlutterIcon, category: "mobile" },
-  { name: "Android", Icon: AndroidIcon, category: "mobile" },
-];
+import { Network, Globe2, SlidersHorizontal, Sparkles, LayoutGrid } from "lucide-react";
 
 const FILTER_TABS = [
   { id: "ALL", label: "ALL TECH" },
@@ -86,18 +19,19 @@ const FILTER_TABS = [
 
 export default function SkillsSection() {
   const [activeTab, setActiveTab] = useState("ALL");
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"showcase" | "globe" | "marquee" | "grid">("showcase");
+  const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
 
   const displayedSkills =
     activeTab === "ALL"
-      ? ALL_PILL_SKILLS
-      : ALL_PILL_SKILLS.filter((s) => s.category === activeTab);
+      ? TECH_SKILLS_DATA
+      : TECH_SKILLS_DATA.filter((s) => s.category === activeTab);
 
   return (
     <section id="skills" className="relative py-28 px-4 sm:px-8 max-w-7xl mx-auto z-10 text-center">
-      {/* Center Amber Triangle Glow Reference (Matching Image 3) */}
-      <div className="relative flex flex-col items-center justify-center mb-16">
-        {/* Glowing Amber Triangle in Background (Image 3) */}
+      {/* Center Amber Triangle Glow Reference */}
+      <div className="relative flex flex-col items-center justify-center mb-12">
+        {/* Glowing Amber Triangle in Background */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-60 h-48 sm:h-60 pointer-events-none -z-10 flex items-center justify-center">
           <svg
             viewBox="0 0 100 100"
@@ -127,67 +61,193 @@ export default function SkillsSection() {
         </p>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-        {FILTER_TABS.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => {
-                sound.playClick();
-                setActiveTab(tab.id);
-              }}
-              onMouseEnter={() => sound.playHover()}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${
-                isActive
-                  ? "bg-purple-500/30 text-white border border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                  : "bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5"
-              }`}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Tech Pill Badges Pack (Matching Image 3) */}
-      <div className="flex flex-wrap items-center justify-center gap-3 max-w-5xl mx-auto">
-        {displayedSkills.map((tech) => {
-          const { Icon, name } = tech;
-          const isHovered = hovered === name;
-
-          return (
-            <motion.div
-              key={name}
-              data-cursor-tech
-              onMouseEnter={() => {
-                sound.playHover();
-                setHovered(name);
-              }}
-              onMouseLeave={() => setHovered(null)}
-              whileHover={{ scale: 1.08, y: -3 }}
-              whileTap={{ scale: 0.96 }}
-              className={`flex items-center gap-2.5 rounded-full px-4 py-2.5 cursor-pointer transition-all duration-300 border ${
-                isHovered
-                  ? "bg-[#1d1236] border-purple-400/70 shadow-[0_0_22px_rgba(168,85,247,0.4)]"
-                  : "bg-[#0b0817]/90 border-white/10 hover:border-white/20 shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
-              }`}
-            >
-              <div className="shrink-0 flex items-center justify-center transition-transform group-hover:scale-110">
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-              </div>
-              <span
-                className={`font-sans text-xs sm:text-[13px] font-semibold tracking-tight transition-colors ${
-                  isHovered ? "text-white" : "text-slate-200"
+      {/* Control Bar: Categories & View Switcher */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-5xl mx-auto mb-10 px-2">
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {FILTER_TABS.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  sound.playClick();
+                  setActiveTab(tab.id);
+                }}
+                onMouseEnter={() => sound.playHover()}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all ${
+                  isActive
+                    ? "bg-purple-500/30 text-white border border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+                    : "bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.08] border border-white/5"
                 }`}
               >
-                {name}
-              </span>
-            </motion.div>
-          );
-        })}
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* View Mode Switcher */}
+        <div className="flex items-center gap-1 p-1 rounded-2xl bg-white/[0.03] border border-white/10 shrink-0">
+          <button
+            onClick={() => {
+              sound.playClick();
+              setViewMode("showcase");
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+              viewMode === "showcase"
+                ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]"
+                : "text-slate-400 hover:text-white"
+            }`}
+            title="Interactive 3D Sphere & Infinite Marquee"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Showcase</span>
+          </button>
+
+          <button
+            onClick={() => {
+              sound.playClick();
+              setViewMode("globe");
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+              viewMode === "globe"
+                ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]"
+                : "text-slate-400 hover:text-white"
+            }`}
+            title="3D Rotating Logo Sphere"
+          >
+            <Globe2 className="w-3.5 h-3.5" />
+            <span>3D Globe</span>
+          </button>
+
+          <button
+            onClick={() => {
+              sound.playClick();
+              setViewMode("marquee");
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+              viewMode === "marquee"
+                ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]"
+                : "text-slate-400 hover:text-white"
+            }`}
+            title="Infinite Logo Marquee Slider"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5" />
+            <span>Marquee</span>
+          </button>
+
+          <button
+            onClick={() => {
+              sound.playClick();
+              setViewMode("grid");
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+              viewMode === "grid"
+                ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]"
+                : "text-slate-400 hover:text-white"
+            }`}
+            title="Grid Badges"
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Grid</span>
+          </button>
+        </div>
       </div>
+
+      {/* Main Interactive Stage */}
+      <AnimatePresence mode="wait">
+        {/* 1. 3D Logo Sphere (Tag Cloud Globe) */}
+        {(viewMode === "showcase" || viewMode === "globe") && (
+          <motion.div
+            key="globe-display"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4 }}
+            className="w-full my-4"
+          >
+            <TechSphere highlightCategory={activeTab} />
+          </motion.div>
+        )}
+
+        {/* 2. Infinite Logo Marquee (Logo Ticker) */}
+        {(viewMode === "showcase" || viewMode === "marquee") && (
+          <motion.div
+            key="marquee-display"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 18 }}
+            transition={{ duration: 0.4 }}
+            className="w-full pt-8 pb-4"
+          >
+            {/* Visual separator label */}
+            {viewMode === "showcase" && (
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <div className="h-px w-12 bg-white/10" />
+                <span className="text-[11px] font-mono tracking-widest text-slate-400 uppercase">
+                  Continuous Stream Ticker
+                </span>
+                <div className="h-px w-12 bg-white/10" />
+              </div>
+            )}
+            <TechMarquee dualRow={true} />
+          </motion.div>
+        )}
+
+        {/* 3. Static Grid View */}
+        {viewMode === "grid" && (
+          <motion.div
+            key="grid-display"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 18 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-wrap items-center justify-center gap-3 max-w-5xl mx-auto py-6"
+          >
+            {displayedSkills.map((tech) => {
+              const { Icon, name, color } = tech;
+              const isHovered = hoveredBadge === name;
+
+              return (
+                <motion.div
+                  key={name}
+                  data-cursor-tech
+                  onMouseEnter={() => {
+                    sound.playHover();
+                    setHoveredBadge(name);
+                  }}
+                  onMouseLeave={() => setHoveredBadge(null)}
+                  whileHover={{ scale: 1.08, y: -3 }}
+                  whileTap={{ scale: 0.96 }}
+                  className={`flex items-center gap-2.5 rounded-full px-4 py-2.5 cursor-pointer transition-all duration-300 border ${
+                    isHovered
+                      ? "bg-[#1d1236] border-purple-400/70 shadow-[0_0_22px_rgba(168,85,247,0.4)]"
+                      : "bg-[#0b0817]/90 border-white/10 hover:border-white/20 shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
+                  }`}
+                >
+                  <div className="shrink-0 flex items-center justify-center transition-transform group-hover:scale-110">
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </div>
+                  <span
+                    className={`font-sans text-xs sm:text-[13px] font-semibold tracking-tight transition-colors ${
+                      isHovered ? "text-white" : "text-slate-200"
+                    }`}
+                  >
+                    {name}
+                  </span>
+                  {color && (
+                    <span
+                      className="w-1.5 h-1.5 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"
+                      style={{ backgroundColor: color }}
+                    />
+                  )}
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Constellation Pipelines */}
       <div className="mt-16 glass-panel p-6 sm:p-8 rounded-3xl border-white/10 max-w-5xl mx-auto text-left">
