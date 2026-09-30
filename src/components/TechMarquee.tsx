@@ -73,17 +73,17 @@ export default function TechMarquee({
 
   return (
     <div
-      className={`relative w-full overflow-hidden select-none py-2 sm:py-4 marquee-pause-hover ${className}`}
+      className={`relative w-full max-w-full overflow-hidden select-none py-2 sm:py-4 marquee-pause-hover ${className}`}
       aria-label="Infinite Tech Stack Logo Marquee"
     >
       {/* Edge Fade Masks: Responsive Edge Atmospheric Blends (Narrower on mobile to maximize visible width) */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-16 md:w-28 bg-gradient-to-r from-[#030508] via-[#030508]/80 to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-16 md:w-28 bg-gradient-to-l from-[#030508] via-[#030508]/80 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-6 sm:w-16 md:w-28 bg-gradient-to-r from-[#030508] via-[#030508]/80 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-6 sm:w-16 md:w-28 bg-gradient-to-l from-[#030508] via-[#030508]/80 to-transparent z-20" />
 
-      <div className="marquee-fade-mask space-y-2.5 sm:space-y-3.5">
+      <div className="marquee-fade-mask space-y-2 sm:space-y-3.5 w-full max-w-full overflow-hidden">
         {/* ROW 1: Glides Left */}
-        <div className="overflow-hidden flex">
-          <div className="animate-marquee-left flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+        <div className="overflow-hidden flex w-full max-w-full">
+          <div className="animate-marquee-left flex items-center gap-2 sm:gap-3.5 shrink-0">
             {row1Skills.map((tech, i) => renderBadge(tech, i, "row1-a"))}
             {row1Skills.map((tech, i) => renderBadge(tech, i, "row1-b"))}
           </div>
@@ -91,8 +91,8 @@ export default function TechMarquee({
 
         {/* ROW 2: Glides Right */}
         {dualRow && row2Skills.length > 0 && (
-          <div className="overflow-hidden flex">
-            <div className="animate-marquee-right flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+          <div className="overflow-hidden flex w-full max-w-full">
+            <div className="animate-marquee-right flex items-center gap-2 sm:gap-3.5 shrink-0">
               {row2Skills.map((tech, i) => renderBadge(tech, i, "row2-a"))}
               {row2Skills.map((tech, i) => renderBadge(tech, i, "row2-b"))}
             </div>

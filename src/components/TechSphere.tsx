@@ -123,13 +123,17 @@ export default function TechSphere({
     let rotX = 0.25;
     let rotY = 0.35;
 
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     // Angular velocity
-    let velX = 0.0015;
-    let velY = 0.003;
+    let velX = prefersReducedMotion ? 0 : 0.0015;
+    let velY = prefersReducedMotion ? 0 : 0.003;
 
     // Target velocity determined by mouse follow
-    let targetVelX = 0.0015;
-    let targetVelY = 0.003;
+    let targetVelX = prefersReducedMotion ? 0 : 0.0015;
+    let targetVelY = prefersReducedMotion ? 0 : 0.003;
 
     // Pointer & Drag State
     let isDragging = false;
@@ -141,13 +145,14 @@ export default function TechSphere({
     let isTouchScrollingPage = false;
     let isHoveringItem = false;
 
-    // Dynamic radius based on container width
+    // Scaled-down radius specifically optimized for mobile widths (320px - 430px)
     const getRadius = () => {
       const w = container.clientWidth || (typeof window !== "undefined" ? window.innerWidth : 360);
-      if (w < 380) return 110;
-      if (w < 480) return 126;
-      if (w < 640) return 150;
-      if (w < 1024) return 180;
+      if (w < 350) return 80;
+      if (w < 400) return 90;
+      if (w < 480) return 100;
+      if (w < 640) return 120;
+      if (w < 1024) return 160;
       return radius;
     };
 
@@ -366,20 +371,20 @@ export default function TechSphere({
       {/* 3D Sphere Interactive Stage */}
       <div
         ref={containerRef}
-        className="relative w-full h-[330px] sm:h-[420px] md:h-[480px] touch-pan-y cursor-grab active:cursor-grabbing flex items-center justify-center overflow-visible"
+        className="relative w-full max-w-full h-[260px] xs:h-[280px] sm:h-[350px] md:h-[480px] touch-pan-y cursor-grab active:cursor-grabbing flex items-center justify-center overflow-hidden sm:overflow-visible"
         aria-label="3D Interactive Tech Stack Logo Sphere"
       >
         {/* Atmospheric Glow & Orbital Core */}
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
           {/* Central Stardust Nebula Core */}
-          <div className="w-40 sm:w-60 md:w-72 h-40 sm:h-60 md:h-72 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl" />
-          <div className="w-24 sm:w-40 md:w-48 h-24 sm:h-40 md:h-48 rounded-full bg-amber-500/10 blur-2xl" />
+          <div className="w-32 sm:w-48 md:w-72 h-32 sm:h-48 md:h-72 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl pointer-events-none" />
+          <div className="w-20 sm:w-32 md:w-48 h-20 sm:h-32 md:h-48 rounded-full bg-amber-500/10 blur-2xl pointer-events-none" />
 
           {/* Planetary Orbital Ring (Horizontal) */}
-          <div className="absolute w-[210px] sm:w-[300px] md:w-[360px] h-[100px] sm:h-[150px] md:h-[180px] rounded-[100%] border border-purple-500/20 rotate-12 opacity-60 pointer-events-none shadow-[0_0_20px_rgba(168,85,247,0.15)]" />
+          <div className="absolute w-[180px] sm:w-[260px] md:w-[360px] h-[85px] sm:h-[130px] md:h-[180px] rounded-[100%] border border-purple-500/20 rotate-12 opacity-60 pointer-events-none shadow-[0_0_20px_rgba(168,85,247,0.15)]" />
 
           {/* Planetary Orbital Ring (Vertical Ellipse) */}
-          <div className="absolute w-[130px] sm:w-[190px] md:w-[230px] h-[210px] sm:h-[300px] md:h-[380px] rounded-[100%] border border-indigo-500/15 -rotate-45 opacity-40 pointer-events-none" />
+          <div className="absolute w-[110px] sm:w-[170px] md:w-[230px] h-[170px] sm:h-[260px] md:h-[380px] rounded-[100%] border border-indigo-500/15 -rotate-45 opacity-40 pointer-events-none" />
         </div>
 
         {/* 3D Sphere Logos: Centered at 50% 50% for guaranteed layout stability */}
@@ -412,7 +417,7 @@ export default function TechSphere({
             >
               {/* Glass Capsule Badge with Glow */}
               <div
-                className={`relative flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-full backdrop-blur-xl border transition-all duration-300 ${
+                className={`relative flex items-center gap-1 sm:gap-2 px-2 py-0.5 sm:px-3 sm:py-1.5 md:px-3.5 md:py-2 rounded-full backdrop-blur-xl border transition-all duration-300 ${
                   isSelected
                     ? "bg-[#1f143d] border-purple-400 text-white shadow-[0_0_24px_rgba(168,85,247,0.6)]"
                     : "bg-[#0b0818]/90 border-white/10 hover:border-purple-400/50 hover:bg-[#160f2e] text-slate-200 shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
@@ -420,11 +425,11 @@ export default function TechSphere({
               >
                 {/* Tech Icon */}
                 <div className="shrink-0 flex items-center justify-center transition-transform group-hover:scale-115">
-                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
                 </div>
 
                 {/* Tech Name */}
-                <span className="font-sans text-[10px] sm:text-xs font-semibold tracking-tight whitespace-nowrap">
+                <span className="font-sans text-[9px] sm:text-[11px] md:text-xs font-semibold tracking-tight whitespace-nowrap">
                   {name}
                 </span>
 
@@ -440,8 +445,8 @@ export default function TechSphere({
       </div>
 
       {/* Floating Active Tech Inspector / Tooltip Bar */}
-      <div className="w-full max-w-[calc(100vw-32px)] sm:max-w-md px-2 sm:px-4 mt-1">
-        <div className="glass-panel p-2.5 sm:p-3.5 md:p-4 rounded-xl sm:rounded-2xl border-white/10 shadow-2xl flex items-center justify-between gap-2.5 sm:gap-3 min-h-[56px] sm:min-h-[64px]">
+      <div className="w-full max-w-md px-2 sm:px-4 mt-2">
+        <div className="glass-panel p-2.5 sm:p-3.5 md:p-4 rounded-xl sm:rounded-2xl border-white/10 shadow-2xl flex items-center justify-between gap-2.5 sm:gap-3 min-h-[52px] sm:min-h-[64px]">
           {activeItem ? (
             <>
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
