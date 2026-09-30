@@ -90,21 +90,20 @@ interface TechSphereProps {
 
 export default function TechSphere({
   skills = TECH_SKILLS_DATA,
-  radius = 210,
+  radius = 205,
   highlightCategory = "ALL",
   className = "",
 }: TechSphereProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeItem, setActiveItem] = useState<TechItem | null>(null);
-  const [isClient, setIsClient] = useState(false);
 
   // Compute unit sphere positions using Fibonacci spherical spiral distribution
   const spherePositions = useMemo(() => {
     const N = skills.length;
     return skills.map((_, i) => {
       const k = i + 0.5;
-      const phi = Math.acos(1 - (2 * k) / N); // from 0 to PI
+      const phi = Math.acos(1 - (2 * k) / N); // 0 to PI
       const theta = Math.PI * (1 + Math.sqrt(5)) * k; // Golden ratio angle
       return {
         x0: Math.sin(phi) * Math.cos(theta),
@@ -115,12 +114,6 @@ export default function TechSphere({
   }, [skills]);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return;
-
     const container = containerRef.current;
     if (!container) return;
 
@@ -150,11 +143,11 @@ export default function TechSphere({
 
     // Dynamic radius based on container width
     const getRadius = () => {
-      const w = container.clientWidth || 360;
-      if (w < 360) return 110;
-      if (w < 440) return 128;
-      if (w < 640) return 155;
-      if (w < 1024) return 185;
+      const w = container.clientWidth || (typeof window !== "undefined" ? window.innerWidth : 360);
+      if (w < 380) return 110;
+      if (w < 480) return 126;
+      if (w < 640) return 150;
+      if (w < 1024) return 180;
       return radius;
     };
 
@@ -166,8 +159,8 @@ export default function TechSphere({
       const centerY = rect.top + rect.height / 2;
 
       // Normalized coordinates from -1 to 1
-      const nx = (e.clientX - centerX) / (rect.width / 2);
-      const ny = (e.clientY - centerY) / (rect.height / 2);
+      const nx = (e.clientX - centerX) / (rect.width / 2 || 1);
+      const ny = (e.clientY - centerY) / (rect.height / 2 || 1);
 
       const distance = Math.min(1.5, Math.hypot(nx, ny));
       if (distance < 1.4) {
@@ -187,7 +180,7 @@ export default function TechSphere({
 
     // Pointer events for desktop drag
     const handlePointerDown = (e: PointerEvent) => {
-      if (e.pointerType === "touch") return; // Handled specifically with touch listeners for native vertical scroll
+      if (e.pointerType === "touch") return;
       isDragging = true;
       lastPointerX = e.clientX;
       lastPointerY = e.clientY;
@@ -233,16 +226,13 @@ export default function TechSphere({
         const diffX = Math.abs(currentX - touchStartX);
         const diffY = Math.abs(currentY - touchStartY);
 
-        // If moved more than 7px, determine gesture intent
         if (diffX > 7 || diffY > 7) {
           touchModeDetermined = true;
           if (diffY > diffX) {
-            // User intends to scroll page vertically - do NOT block page scroll
             isTouchScrollingPage = true;
             isDragging = false;
             return;
           } else {
-            // User intends to rotate the sphere horizontally
             isTouchScrollingPage = false;
             isDragging = true;
           }
@@ -271,9 +261,6 @@ export default function TechSphere({
     // Animation Loop (60-120fps)
     const render = () => {
       const currentRadius = getRadius();
-      const rect = container.getBoundingClientRect();
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
 
       if (!isDragging) {
         const lerpFactor = isHoveringItem ? 0.02 : 0.06;
@@ -306,28 +293,29 @@ export default function TechSphere({
         const z2 = -pos.x0 * sinY + z1 * cosY;
         const y2 = y1;
 
-        // Screen coordinate projection
-        const screenX = centerX + x2 * currentRadius;
-        const screenY = centerY + y2 * currentRadius;
+        // Offset from container center (because items have left: 50%, top: 50%)
+        const offsetX = x2 * currentRadius;
+        const offsetY = y2 * currentRadius;
 
         // Depth factor (0 = back, 1 = front)
         const zNorm = (z2 + 1) / 2;
 
-        // Mobile-tuned depth scaling: 0.54x at back, 1.15x at front
-        const scale = 0.54 + 0.61 * zNorm;
+        // Mobile-tuned depth scaling: 0.55x at back, 1.15x at front
+        const scale = 0.55 + 0.60 * zNorm;
 
-        // Exponential depth fading for authentic 3D atmosphere
-        const depthOpacity = 0.18 + 0.82 * Math.pow(zNorm, 1.45);
+        // Depth fading for authentic 3D atmosphere
+        const depthOpacity = 0.22 + 0.78 * Math.pow(zNorm, 1.4);
 
         // Active category filter state
         const itemCategory = skills[i]?.category;
         const isCategoryActive =
           highlightCategory === "ALL" || itemCategory === highlightCategory;
-        const finalOpacity = isCategoryActive ? depthOpacity : depthOpacity * 0.22;
+        const finalOpacity = isCategoryActive ? depthOpacity : depthOpacity * 0.2;
 
         const zIndex = Math.floor(zNorm * 100) + 10;
 
-        el.style.transform = `translate3d(${screenX}px, ${screenY}px, 0px) translate(-50%, -50%) scale(${scale})`;
+        // Apply hardware-accelerated transform relative to center (left:50%, top:50%)
+        el.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0px) translate(-50%, -50%) scale(${scale})`;
         el.style.opacity = `${finalOpacity}`;
         el.style.zIndex = `${zIndex}`;
 
@@ -350,6 +338,7 @@ export default function TechSphere({
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
     window.addEventListener("touchend", handleTouchEnd);
 
+    // Initial render trigger
     animId = requestAnimationFrame(render);
 
     return () => {
@@ -363,7 +352,7 @@ export default function TechSphere({
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [spherePositions, radius, highlightCategory, skills, isClient]);
+  }, [spherePositions, radius, highlightCategory, skills]);
 
   const resetRotation = () => {
     sound.playClick();
@@ -374,26 +363,26 @@ export default function TechSphere({
     <div
       className={`relative w-full max-w-4xl mx-auto flex flex-col items-center select-none ${className}`}
     >
-      {/* 3D Sphere Interactive Stage - touch-pan-y allows intuitive vertical scrolling on phones */}
+      {/* 3D Sphere Interactive Stage */}
       <div
         ref={containerRef}
-        className="relative w-full h-[360px] xs:h-[400px] sm:h-[480px] md:h-[540px] touch-pan-y cursor-grab active:cursor-grabbing flex items-center justify-center overflow-visible"
+        className="relative w-full h-[330px] sm:h-[420px] md:h-[480px] touch-pan-y cursor-grab active:cursor-grabbing flex items-center justify-center overflow-visible"
         aria-label="3D Interactive Tech Stack Logo Sphere"
       >
         {/* Atmospheric Glow & Orbital Core */}
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
           {/* Central Stardust Nebula Core */}
-          <div className="w-44 sm:w-64 md:w-80 h-44 sm:h-64 md:h-80 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl" />
-          <div className="w-28 sm:w-44 md:w-52 h-28 sm:h-44 md:h-52 rounded-full bg-amber-500/10 blur-2xl" />
+          <div className="w-40 sm:w-60 md:w-72 h-40 sm:h-60 md:h-72 rounded-full bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl" />
+          <div className="w-24 sm:w-40 md:w-48 h-24 sm:h-40 md:h-48 rounded-full bg-amber-500/10 blur-2xl" />
 
-          {/* Celestial Orbital Ring 1 (Horizontal) */}
-          <div className="absolute w-[220px] sm:w-[320px] md:w-[380px] h-[110px] sm:h-[160px] md:h-[190px] rounded-[100%] border border-purple-500/15 rotate-12 opacity-60 pointer-events-none" />
+          {/* Planetary Orbital Ring (Horizontal) */}
+          <div className="absolute w-[210px] sm:w-[300px] md:w-[360px] h-[100px] sm:h-[150px] md:h-[180px] rounded-[100%] border border-purple-500/20 rotate-12 opacity-60 pointer-events-none shadow-[0_0_20px_rgba(168,85,247,0.15)]" />
 
-          {/* Celestial Orbital Ring 2 (Vertical Ellipse) */}
-          <div className="absolute w-[140px] sm:w-[200px] md:w-[240px] h-[220px] sm:h-[320px] md:h-[400px] rounded-[100%] border border-indigo-500/10 -rotate-45 opacity-40 pointer-events-none" />
+          {/* Planetary Orbital Ring (Vertical Ellipse) */}
+          <div className="absolute w-[130px] sm:w-[190px] md:w-[230px] h-[210px] sm:h-[300px] md:h-[380px] rounded-[100%] border border-indigo-500/15 -rotate-45 opacity-40 pointer-events-none" />
         </div>
 
-        {/* 3D Sphere Logos */}
+        {/* 3D Sphere Logos: Centered at 50% 50% for guaranteed layout stability */}
         {skills.map((skill, index) => {
           const { Icon, name, color } = skill;
           const isSelected = activeItem?.name === name;
@@ -413,7 +402,7 @@ export default function TechSphere({
                 sound.playHover();
                 setActiveItem(skill);
               }}
-              className={`absolute top-0 left-0 cursor-pointer transition-colors duration-200 group ${
+              className={`absolute left-1/2 top-1/2 cursor-pointer transition-colors duration-200 group ${
                 isSelected ? "ring-2 ring-purple-400 ring-offset-2 ring-offset-[#030508]" : ""
               }`}
               style={{
@@ -426,7 +415,7 @@ export default function TechSphere({
                 className={`relative flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-full backdrop-blur-xl border transition-all duration-300 ${
                   isSelected
                     ? "bg-[#1f143d] border-purple-400 text-white shadow-[0_0_24px_rgba(168,85,247,0.6)]"
-                    : "bg-[#0b0818]/85 border-white/10 hover:border-purple-400/50 hover:bg-[#160f2e] text-slate-200 shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+                    : "bg-[#0b0818]/90 border-white/10 hover:border-purple-400/50 hover:bg-[#160f2e] text-slate-200 shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
                 }`}
               >
                 {/* Tech Icon */}
@@ -451,8 +440,8 @@ export default function TechSphere({
       </div>
 
       {/* Floating Active Tech Inspector / Tooltip Bar */}
-      <div className="w-full max-w-[calc(100vw-32px)] sm:max-w-md px-2 sm:px-4 mt-2">
-        <div className="glass-panel p-2.5 sm:p-3.5 md:p-4 rounded-xl sm:rounded-2xl border-white/10 shadow-2xl flex items-center justify-between gap-2.5 sm:gap-3 min-h-[58px] sm:min-h-[64px]">
+      <div className="w-full max-w-[calc(100vw-32px)] sm:max-w-md px-2 sm:px-4 mt-1">
+        <div className="glass-panel p-2.5 sm:p-3.5 md:p-4 rounded-xl sm:rounded-2xl border-white/10 shadow-2xl flex items-center justify-between gap-2.5 sm:gap-3 min-h-[56px] sm:min-h-[64px]">
           {activeItem ? (
             <>
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -491,7 +480,7 @@ export default function TechSphere({
           ) : (
             <div className="w-full flex items-center justify-center gap-2 text-[11px] sm:text-xs text-slate-400 py-1 text-center">
               <Compass className="w-3.5 h-3.5 text-purple-400 animate-spin shrink-0" style={{ animationDuration: "12s" }} />
-              <span className="truncate">Hover or drag 3D globe to inspect</span>
+              <span className="truncate">Swipe or hover 3D globe to inspect stack</span>
               <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
             </div>
           )}

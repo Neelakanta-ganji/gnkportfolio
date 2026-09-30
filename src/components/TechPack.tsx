@@ -5,7 +5,7 @@ import TechSphere, { TECH_SKILLS_DATA, TechItem } from "./TechSphere";
 import TechMarquee from "./TechMarquee";
 import { sound } from "@/lib/sound";
 import { Globe2, Sparkles, SlidersHorizontal, LayoutGrid } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export type { TechItem };
 export { TECH_SKILLS_DATA, TechSphere, TechMarquee };
@@ -134,42 +134,21 @@ export default function TechPack({
       )}
 
       {/* Main Showcase Stage */}
-      <AnimatePresence mode="wait">
+      <div className="w-full relative">
         {(viewMode === "both" || viewMode === "globe") && (
-          <motion.div
-            key="globe-stage"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4 }}
-            className="w-full"
-          >
+          <div className="w-full">
             <TechSphere highlightCategory={activeCategory} />
-          </motion.div>
+          </div>
         )}
 
         {(viewMode === "both" || viewMode === "marquee") && (
-          <motion.div
-            key="marquee-stage"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 15 }}
-            transition={{ duration: 0.4 }}
-            className="w-full pt-3 sm:pt-4"
-          >
+          <div className="w-full pt-3 sm:pt-4">
             <TechMarquee dualRow={true} />
-          </motion.div>
+          </div>
         )}
 
         {viewMode === "grid" && (
-          <motion.div
-            key="grid-stage"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 15 }}
-            transition={{ duration: 0.4 }}
-            className="w-full flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-5xl mx-auto px-2"
-          >
+          <div className="w-full flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-5xl mx-auto px-2">
             {displayedSkills.map((tech) => {
               const { Icon, name, color } = tech;
               const isHovered = hoveredBadge === name;
@@ -210,9 +189,9 @@ export default function TechPack({
                 </motion.div>
               );
             })}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 }

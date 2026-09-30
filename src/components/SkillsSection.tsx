@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import TechSphere, { TECH_SKILLS_DATA, TechItem } from "./TechSphere";
 import TechMarquee from "./TechMarquee";
 import { sound } from "@/lib/sound";
@@ -28,14 +27,14 @@ export default function SkillsSection() {
       : TECH_SKILLS_DATA.filter((s) => s.category === activeTab);
 
   return (
-    <section id="skills" className="relative py-20 sm:py-28 px-3 sm:px-8 max-w-7xl mx-auto z-10 text-center overflow-hidden">
+    <section id="skills" className="relative py-12 sm:py-24 px-3 sm:px-8 max-w-7xl mx-auto z-10 text-center overflow-hidden">
       {/* Center Amber Triangle Glow Reference */}
-      <div className="relative flex flex-col items-center justify-center mb-8 sm:mb-12">
+      <div className="relative flex flex-col items-center justify-center mb-6 sm:mb-10">
         {/* Glowing Amber Triangle in Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 sm:w-60 h-40 sm:h-60 pointer-events-none -z-10 flex items-center justify-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-56 h-36 sm:h-56 pointer-events-none -z-10 flex items-center justify-center">
           <svg
             viewBox="0 0 100 100"
-            className="w-full h-full text-amber-500 drop-shadow-[0_0_35px_rgba(245,158,11,0.6)]"
+            className="w-full h-full text-amber-500 drop-shadow-[0_0_30px_rgba(245,158,11,0.55)]"
             fill="none"
           >
             <polygon
@@ -50,21 +49,21 @@ export default function SkillsSection() {
         </div>
 
         {/* Section Header */}
-        <span className="font-sans text-[11px] sm:text-sm font-semibold tracking-[0.25em] text-slate-300 uppercase mb-2">
+        <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-slate-300 uppercase mb-2">
           BETTER THAN YESTERDAY.
         </span>
-        <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tight text-white leading-tight">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
           My Tech Stack
         </h2>
-        <p className="mt-2.5 sm:mt-3 text-xs sm:text-base text-slate-400 max-w-xl mx-auto leading-relaxed px-2">
+        <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-400 max-w-xl mx-auto leading-relaxed px-2">
           Production technologies, distributed persistence engines, and modern tooling powering digital experiences.
         </p>
       </div>
 
       {/* Control Bar: Categories (Swipeable on mobile) & View Switcher */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-3.5 sm:gap-4 max-w-5xl mx-auto mb-8 sm:mb-10 w-full px-1">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 max-w-5xl mx-auto mb-6 sm:mb-8 w-full px-1">
         {/* Filter Tabs - Horizontal swipe rail on mobile with no scrollbar */}
-        <div className="w-full md:w-auto flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 sm:pb-0 scrollbar-none md:flex-wrap md:justify-center px-1">
+        <div className="w-full md:w-auto flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none md:flex-wrap md:justify-center px-1">
           {FILTER_TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -155,35 +154,21 @@ export default function SkillsSection() {
         </div>
       </div>
 
-      {/* Main Interactive Stage */}
-      <AnimatePresence mode="wait">
+      {/* Main Interactive Stage: Clean rendering with zero AnimatePresence locks */}
+      <div className="w-full relative transition-all duration-300">
         {/* 1. 3D Logo Sphere (Tag Cloud Globe) */}
         {(viewMode === "showcase" || viewMode === "globe") && (
-          <motion.div
-            key="globe-display"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4 }}
-            className="w-full my-2 sm:my-4"
-          >
+          <div className="w-full my-1 sm:my-3">
             <TechSphere highlightCategory={activeTab} />
-          </motion.div>
+          </div>
         )}
 
         {/* 2. Infinite Logo Marquee (Logo Ticker) */}
         {(viewMode === "showcase" || viewMode === "marquee") && (
-          <motion.div
-            key="marquee-display"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 18 }}
-            transition={{ duration: 0.4 }}
-            className="w-full pt-6 sm:pt-8 pb-2 sm:pb-4"
-          >
+          <div className="w-full pt-4 sm:pt-6 pb-2 sm:pb-4">
             {/* Visual separator label */}
             {viewMode === "showcase" && (
-              <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
+              <div className="flex items-center justify-center gap-2 mb-2 sm:mb-3">
                 <div className="h-px w-8 sm:w-12 bg-white/10" />
                 <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-slate-400 uppercase">
                   Continuous Stream Ticker
@@ -192,25 +177,18 @@ export default function SkillsSection() {
               </div>
             )}
             <TechMarquee dualRow={true} />
-          </motion.div>
+          </div>
         )}
 
         {/* 3. Static Grid View */}
         {viewMode === "grid" && (
-          <motion.div
-            key="grid-display"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 18 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-5xl mx-auto py-4 sm:py-6 px-1"
-          >
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-5xl mx-auto py-4 sm:py-6 px-1">
             {displayedSkills.map((tech) => {
               const { Icon, name, color } = tech;
               const isHovered = hoveredBadge === name;
 
               return (
-                <motion.div
+                <div
                   key={name}
                   data-cursor-tech
                   onMouseEnter={() => {
@@ -218,15 +196,13 @@ export default function SkillsSection() {
                     setHoveredBadge(name);
                   }}
                   onMouseLeave={() => setHoveredBadge(null)}
-                  whileHover={{ scale: 1.07, y: -2 }}
-                  whileTap={{ scale: 0.96 }}
                   className={`flex items-center gap-2 sm:gap-2.5 rounded-full px-3 py-1.5 sm:px-4 sm:py-2.5 cursor-pointer transition-all duration-300 border ${
                     isHovered
                       ? "bg-[#1d1236] border-purple-400/70 shadow-[0_0_22px_rgba(168,85,247,0.4)]"
                       : "bg-[#0b0817]/90 border-white/10 hover:border-white/20 shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
                   }`}
                 >
-                  <div className="shrink-0 flex items-center justify-center transition-transform group-hover:scale-110">
+                  <div className="shrink-0 flex items-center justify-center transition-transform hover:scale-110">
                     <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                   </div>
                   <span
@@ -238,27 +214,27 @@ export default function SkillsSection() {
                   </span>
                   {color && (
                     <span
-                      className="w-1.5 h-1.5 rounded-full opacity-60 group-hover:opacity-100 transition-opacity shrink-0"
+                      className="w-1.5 h-1.5 rounded-full opacity-60 hover:opacity-100 transition-opacity shrink-0"
                       style={{ backgroundColor: color }}
                     />
                   )}
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
 
       {/* Constellation Pipelines */}
-      <div className="mt-12 sm:mt-16 glass-panel p-5 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 max-w-5xl mx-auto text-left">
-        <div className="flex items-center gap-2 mb-4 text-xs font-semibold text-purple-400 uppercase tracking-widest">
+      <div className="mt-10 sm:mt-16 glass-panel p-4 sm:p-7 rounded-2xl sm:rounded-3xl border-white/10 max-w-5xl mx-auto text-left">
+        <div className="flex items-center gap-2 mb-3.5 text-xs font-semibold text-purple-400 uppercase tracking-widest">
           <Network className="w-4 h-4 shrink-0" />
           <span>Verified Production Pipelines</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/10">
-            <span className="text-[10px] sm:text-[11px] font-bold text-purple-300 block mb-1.5 sm:mb-2 tracking-wider">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/10">
+            <span className="text-[10px] sm:text-[11px] font-bold text-purple-300 block mb-1.5 tracking-wider">
               FULL-STACK WEB
             </span>
             <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-mono break-words">
@@ -266,8 +242,8 @@ export default function SkillsSection() {
             </p>
           </div>
 
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/10">
-            <span className="text-[10px] sm:text-[11px] font-bold text-amber-300 block mb-1.5 sm:mb-2 tracking-wider">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/10">
+            <span className="text-[10px] sm:text-[11px] font-bold text-amber-300 block mb-1.5 tracking-wider">
               ML & THREAT DETECTION
             </span>
             <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-mono break-words">
@@ -275,8 +251,8 @@ export default function SkillsSection() {
             </p>
           </div>
 
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/10">
-            <span className="text-[10px] sm:text-[11px] font-bold text-emerald-300 block mb-1.5 sm:mb-2 tracking-wider">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/10">
+            <span className="text-[10px] sm:text-[11px] font-bold text-emerald-300 block mb-1.5 tracking-wider">
               MICROSERVICES PLATFORM
             </span>
             <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-mono break-words">

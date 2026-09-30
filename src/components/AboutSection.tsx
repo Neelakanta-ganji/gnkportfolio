@@ -20,12 +20,12 @@ import { sound } from "@/lib/sound";
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
+    <section id="about" className="relative py-14 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
       {/* Subtle Ambient Glow */}
       <div className="absolute top-1/4 left-1/3 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* Section Header */}
-      <div className="flex flex-col items-start mb-14 space-y-3 text-left">
+      <div className="flex flex-col items-start mb-8 sm:mb-14 space-y-3 text-left">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 font-sans text-xs text-purple-300 font-semibold tracking-[0.2em] uppercase">
           <Terminal className="w-3.5 h-3.5 text-purple-400" />
           <span>01 // DEVELOPER SNAPSHOT</span>
